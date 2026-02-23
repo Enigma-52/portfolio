@@ -48,7 +48,7 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building reliable backend systems for data-heavy products</>,
+  headline: <>Building reliable backend systems for real-world products</>,
   featured: {
     display: true,
     title: (
@@ -223,7 +223,7 @@ const about: About = {
 const blog: Blog = {
   path: "/blog",
   label: "Blog",
-  title: "Writing about software engineering and systems",
+  title: "Writing about software engineering and AI systems",
   description: `Read what ${person.name} has been building and learning recently`,
   // Create new blog posts by adding a new .mdx file to app/blog/posts
   // All posts will be listed on the /blog route
