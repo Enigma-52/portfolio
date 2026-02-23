@@ -48,12 +48,12 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  headline: <>Building reliable backend systems for data-heavy products</>,
   featured: {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Once UI</strong>{" "}
+        <strong className="ml-4">Featured project</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured work
@@ -64,8 +64,11 @@ const home: Home = {
   },
   subline: (
     <>
-    I'm Selene, a design engineer at <Text as="span" size="xl" weight="strong">ONCE UI</Text>, where I craft intuitive <br /> user experiences. After hours, I build my own projects.
-</>
+      Rohit is a software engineer focused on building backend platforms, data pipelines, and scalable products.
+      <br />
+      He has worked on AI-driven equity research systems, automated document processing, and developer tools that
+      support real users and real workloads.
+    </>
   ),
 };
 
@@ -90,8 +93,10 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Rohit is a software engineer with a passion for building practical, scalable products from idea to production. 
-        He works across backend systems and full-stack development, with experience in real-time architectures and production-grade infrastructure.
+        Rohit Singh is a software engineer who enjoys turning complex ideas into reliable, production-ready systems.
+        He works primarily on backend platforms, data pipelines, and API-driven products, using technologies like
+        Node.js, TypeScript, PostgreSQL, and Redis. His experience spans building AI-assisted equity research tools,
+        automating document processing workflows, and shipping features that directly impact users.
       </>
     ),
   },
@@ -100,41 +105,60 @@ const about: About = {
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "FrontPage (YC S21)",
+        timeframe: "Aug 2025 – Present",
+        role: "Software Engineer",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Architected and built the core backend platform for an AI-driven equity research product using Node.js,
+            TypeScript, PostgreSQL and Redis, serving concalls, company financial data, and AI-generated insights.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Designed and built a Prefect-orchestrated concall processing pipeline ingesting PDFs from GCS, performing
+            Gemini OCR transcription, LLM summarization, insight extraction, and semantic embedding indexing for
+            document linking at scale.
+          </>,
+          <>
+            Built a semantic news de-duplication system using GPT-generated embeddings to cluster and collapse redundant
+            articles across sources, dramatically improving signal-to-noise in the news feed.
+          </>,
+          <>
+            Developed an automated pipeline to extract management team data (CEO, CFO, Directors) from annual reports
+            and enrich executive profiles via web search for user-facing company pages.
           </>,
         ],
         images: [
           // optional: leave the array empty if you don't want to display images
-          {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
-            width: 16,
-            height: 9,
-          },
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "FrontPage (YC S21)",
+        timeframe: "Feb 2025 – Jul 2025",
+        role: "Software Engineer Intern",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Revamped the community-facing website, including architecture and UI/UX, and developed a new Private Clubs
+            system supporting exclusive, invite-only investment groups.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Collaborated with the team to ship features that improved how investment communities discover and organize
+            information.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "Vizmo",
+        timeframe: "Aug 2024 – Jan 2025",
+        role: "Backend Developer Intern",
+        achievements: [
+          <>
+            Worked closely with the CTO to design and implement a comprehensive data retention policy covering key
+            product areas, ensuring compliance and efficient data management.
+          </>,
+          <>
+            Migrated existing workflows to the Temporal execution platform and implemented tests to increase reliability
+            and observability.
           </>,
         ],
         images: [],
@@ -146,12 +170,12 @@ const about: About = {
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
-      },
-      {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Heritage Institute of Technology",
+        description: (
+          <>
+            B.Tech in Computer Science Engineering (CGPA: 8.05), 2021 – 2025, Kolkata, India.
+          </>
+        ),
       },
     ],
   },
@@ -160,60 +184,37 @@ const about: About = {
     title: "Technical skills",
     skills: [
       {
-        title: "Figma",
+        title: "Languages and Backend",
         description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
+          <>
+            Languages: C++, JavaScript, TypeScript. Backend and APIs with Node.js and Express.js, focusing on
+            performance, reliability, and maintainability.
+          </>
         ),
-        tags: [
-          {
-            name: "Figma",
-            icon: "figma",
-          },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        tags: [],
+        images: [],
       },
       {
-        title: "Next.js",
+        title: "Web Technologies",
         description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+          <>
+            Building web applications with HTML, CSS, React.js, TailwindCSS and Redux, from user-facing interfaces to
+            full-stack features.
+          </>
         ),
-        tags: [
-          {
-            name: "JavaScript",
-            icon: "javascript",
-          },
-          {
-            name: "Next.js",
-            icon: "nextjs",
-          },
-          {
-            name: "Supabase",
-            icon: "supabase",
-          },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        tags: [],
+        images: [],
+      },
+      {
+        title: "Databases, Cloud and Tooling",
+        description: (
+          <>
+            Databases: MySQL, PostgreSQL, MongoDB, Firebase Storage. Cloud and tooling: Google Compute Engine, Firebase
+            Functions, Docker, Prefect, Redis, Kubernetes, Jest.
+          </>
+        ),
+        tags: [],
+        images: [],
       },
     ],
   },
@@ -222,8 +223,8 @@ const about: About = {
 const blog: Blog = {
   path: "/blog",
   label: "Blog",
-  title: "Writing about design and tech...",
-  description: `Read what ${person.name} has been up to recently`,
+  title: "Writing about software engineering and systems",
+  description: `Read what ${person.name} has been building and learning recently`,
   // Create new blog posts by adding a new .mdx file to app/blog/posts
   // All posts will be listed on the /blog route
 };
@@ -232,7 +233,7 @@ const work: Work = {
   path: "/work",
   label: "Work",
   title: `Projects – ${person.name}`,
-  description: `Design and dev projects by ${person.name}`,
+  description: `Software engineering and backend projects by ${person.name}`,
   // Create new project pages by adding a new .mdx file to app/blog/posts
   // All projects will be listed on the /home and /work routes
 };
