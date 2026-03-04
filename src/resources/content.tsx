@@ -85,7 +85,7 @@ const about: About = {
     display: true,
   },
   calendar: {
-    display: true,
+    display: false,
     link: "https://cal.com",
   },
   intro: {
@@ -184,37 +184,71 @@ const about: About = {
     title: "Technical skills",
     skills: [
       {
-        title: "Languages and Backend",
+        title: "Languages & Backend",
         description: (
           <>
-            Languages: C++, JavaScript, TypeScript. Backend and APIs with Node.js and Express.js, focusing on
-            performance, reliability, and maintainability.
+            I work primarily with modern TypeScript/JavaScript backends, while still being comfortable dropping down to
+            C++ when performance or low-level control really matters.
           </>
         ),
-        tags: [],
-        images: [],
+        tags: [
+          { name: "C++", icon: "cplusplus" },
+          { name: "JavaScript", icon: "javascript" },
+          { name: "TypeScript", icon: "typescript" },
+          { name: "Node.js", icon: "nodejs" },
+          { name: "Express.js", icon: "express" },
+        ],
       },
       {
         title: "Web Technologies",
         description: (
           <>
-            Building web applications with HTML, CSS, React.js, TailwindCSS and Redux, from user-facing interfaces to
-            full-stack features.
+            I build responsive, accessible interfaces and end‑to‑end features using a modern React stack and utility‑
+            first styling.
           </>
         ),
-        tags: [],
-        images: [],
+        tags: [
+          { name: "HTML", icon: "html5" },
+          { name: "CSS", icon: "css3" },
+          { name: "React.js", icon: "react" },
+          { name: "Tailwind CSS", icon: "tailwindcss" },
+          { name: "Redux", icon: "redux" },
+        ],
       },
       {
-        title: "Databases, Cloud and Tooling",
+        title: "Data & Cloud Platforms",
         description: (
           <>
-            Databases: MySQL, PostgreSQL, MongoDB, Firebase Storage. Cloud and tooling: Google Compute Engine, Firebase
-            Functions, Docker, Prefect, Redis, Kubernetes, Jest.
+            I design data models and pipelines across relational, document, and cloud‑native storage, and deploy them on
+            Google Cloud.
           </>
         ),
-        tags: [],
-        images: [],
+        tags: [
+          { name: "MySQL", icon: "mysql" },
+          { name: "PostgreSQL", icon: "postgresql" },
+          { name: "MongoDB", icon: "mongodb" },
+          { name: "Firebase Storage", icon: "firebase" },
+          { name: "Google Compute Engine", icon: "googlecloud" },
+          { name: "Firebase Functions", icon: "firebase" },
+          { name: "GCP Monitoring", icon: "googlecloud" },
+        ],
+      },
+      {
+        title: "DevOps, Tooling & Testing",
+        description: (
+          <>
+            I care about reliability and operability, using containerization, orchestration, and workflow engines to
+            ship and maintain systems in production.
+          </>
+        ),
+        tags: [
+          { name: "Docker", icon: "docker" },
+          { name: "Kafka", icon: "kafka" },
+          { name: "Prefect", icon: "prefect" },
+          { name: "Redis", icon: "redis" },
+          { name: "Kubernetes", icon: "kubernetes" },
+          { name: "Jest", icon: "jest" },
+        ],
       },
     ],
   },
