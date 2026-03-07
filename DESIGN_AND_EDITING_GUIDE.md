@@ -102,4 +102,3 @@ Before and after each change:
 - **After**:
   - Run the dev server and visually inspect `/`, `/about`, `/work`, `/blog`.
   - Scan for any remaining references to previous names, companies, or locations that do not apply to Rohit.
-
