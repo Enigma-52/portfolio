@@ -1,0 +1,25 @@
+---
+title: "Shipping backend features in multi-tenant SaaS"
+summary: "What changes when your backend work must stay reliable across many tenants and modules."
+publishedAt: "2026-04-15"
+tag: "Engineering"
+---
+
+At Zelthy, my current work focuses on core backend modules for a multi-tenant SaaS product built on Python and Zango.
+
+## Constraints that shape decisions
+
+- Every change must behave safely across tenant boundaries.
+- Incremental delivery is preferred over large risky rewrites.
+- Reliability in production matters more than idealized architecture.
+
+## Working approach
+
+- Ship in small, verifiable increments.
+- Keep contracts explicit at module boundaries.
+- Add tests around regressions before extending behavior.
+- Prioritize stable production behavior over speculative abstractions.
+
+## Practical takeaway
+
+Crisp execution in multi-tenant systems comes from consistency: small releases, clear contracts, and reliability-first engineering.
