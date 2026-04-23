@@ -1,6 +1,6 @@
 ## Rohit Singh's Portfolio
 
-This is Rohit Singh's personal portfolio, built on top of the Magic Portfolio template. It uses an MDX-based content
+This is Rohit Singh's personal portfolio website, built on top of the Magic Portfolio template. It uses an MDX-based content
 system for projects and blog posts, an about / CV page and a gallery.
 
 Magic Portfolio is built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org).
