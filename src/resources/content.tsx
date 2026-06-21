@@ -166,7 +166,6 @@ const about: About = {
     items: [
       { label: "Building", description: "Multi-tenant SaaS backend at Zelthy" },
       { label: "Exploring", description: "LLM orchestration & Prefect pipelines" },
-      { label: "Reading", description: "Designing Data-Intensive Applications" },
     ],
   },
   technical: {

@@ -10,6 +10,50 @@
     }
 }
 
+.timeline {
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 7px;
+        top: 14px;
+        bottom: 14px;
+        width: 1px;
+        background: var(--neutral-border-medium);
+    }
+}
+
+.timelineEntry {
+    position: relative;
+    padding-left: 28px;
+    padding-bottom: 40px;
+
+    &:last-child {
+        padding-bottom: 0;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 3px;
+        top: 6px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--neutral-border-medium);
+        border: 2px solid var(--page-background);
+        box-sizing: border-box;
+    }
+}
+
+.timelineEntryActive {
+    &::before {
+        background: var(--brand-background-strong);
+        box-shadow: 0 0 0 3px var(--brand-alpha-weak);
+    }
+}
+
 .hover {
     transition: var(--transition-micro-medium);
 
