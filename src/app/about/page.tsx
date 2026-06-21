@@ -14,6 +14,7 @@ import {
 } from "@once-ui-system/core";
 import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
+import GitHubCalendar from "@/components/about/GitHubCalendar";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
 
@@ -106,6 +107,24 @@ export default function About() {
                   </Tag>
                 ))}
               </Row>
+            )}
+            <GitHubCalendar username="Enigma-52" />
+            {about.focus?.display && about.focus.items.length > 0 && (
+              <Column fillWidth gap="12" paddingTop="4">
+                <Text variant="label-strong-xs" onBackground="neutral-weak">
+                  Currently
+                </Text>
+                <Column gap="12">
+                  {about.focus.items.map((item, i) => (
+                    <Column key={i} gap="2">
+                      <Text variant="label-strong-s">{item.label}</Text>
+                      <Text variant="body-default-xs" onBackground="neutral-weak">
+                        {item.description}
+                      </Text>
+                    </Column>
+                  ))}
+                </Column>
+              </Column>
             )}
           </Column>
         )}

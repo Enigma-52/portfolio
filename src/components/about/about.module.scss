@@ -1,5 +1,15 @@
 @use "../breakpoints.scss" as breakpoints;
 
+.calendarWrapper {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
 .hover {
     transition: var(--transition-micro-medium);
 

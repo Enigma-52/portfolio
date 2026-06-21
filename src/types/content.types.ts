@@ -179,6 +179,14 @@ export interface About extends BasePageConfig {
       description: React.ReactNode;
     }>;
   };
+  /** Currently focusing on section — shown in sidebar below GitHub graph */
+  focus?: {
+    display: boolean;
+    items: Array<{
+      label: string;
+      description: string;
+    }>;
+  };
   /** Technical skills section */
   technical: {
     /** Whether to display technical skills section */
@@ -222,6 +230,18 @@ export interface Blog extends BasePageConfig {}
  * @description Configuration for the Work/Projects page, including metadata and navigation label.
  */
 export interface Work extends BasePageConfig {}
+
+/**
+ * Shelf page configuration — curated finds.
+ */
+export interface Shelf extends BasePageConfig {
+  items: Array<{
+    title: string;
+    description: React.ReactNode;
+    category: string;
+    href?: string;
+  }>;
+}
 
 /**
  * Gallery page configuration.

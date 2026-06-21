@@ -1,4 +1,4 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import { About, Blog, Gallery, Home, Newsletter, Person, Shelf, Social, Work } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
@@ -161,6 +161,14 @@ const about: About = {
       },
     ],
   },
+  focus: {
+    display: true,
+    items: [
+      { label: "Building", description: "Multi-tenant SaaS backend at Zelthy" },
+      { label: "Exploring", description: "LLM orchestration & Prefect pipelines" },
+      { label: "Reading", description: "Designing Data-Intensive Applications" },
+    ],
+  },
   technical: {
     display: true,
     title: "Technical Skills",
@@ -220,9 +228,46 @@ const blog: Blog = {
 
 const work: Work = {
   path: "/work",
-  label: "Work",
+  label: "Projects",
   title: `Projects – ${person.name}`,
   description: `Selected backend and product engineering projects by ${person.name}`,
+};
+
+const shelf: Shelf = {
+  path: "/shelf",
+  label: "Shelf",
+  title: `Shelf – ${person.name}`,
+  description: `Things ${person.name} finds uniquely interesting — tools, reads, repos, and ideas worth revisiting.`,
+  items: [
+    {
+      title: "Prefect",
+      description: <>Workflow orchestration that actually feels like Python. The observable, retryable pipeline model is exactly right for data-heavy products.</>,
+      category: "tool",
+      href: "https://prefect.io",
+    },
+    {
+      title: "pgvector",
+      description: <>Postgres extension for vector similarity search. Removes the need for a separate vector DB in most production use cases.</>,
+      category: "tool",
+      href: "https://github.com/pgvector/pgvector",
+    },
+    {
+      title: "Codeforces",
+      description: <>Specialist (1413 rating). The place that taught me to think under constraints. Competitive programming changes how you approach tradeoffs.</>,
+      category: "platform",
+      href: "https://codeforces.com/profile/Enigma_52",
+    },
+    {
+      title: "Designing Data-Intensive Applications",
+      description: <>The best systems book. Covers replication, partitioning, consistency, and distributed transactions with just the right depth.</>,
+      category: "read",
+    },
+    {
+      title: "Semantic de-duplication with embeddings",
+      description: <>Using cosine similarity on LLM embeddings to cluster near-duplicate news articles — built this at FrontPage and it meaningfully improved feed quality.</>,
+      category: "idea",
+    },
+  ],
 };
 
 const gallery: Gallery = {
@@ -233,4 +278,4 @@ const gallery: Gallery = {
   images: [],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+export { person, social, newsletter, home, about, blog, work, shelf, gallery };

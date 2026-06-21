@@ -12,6 +12,9 @@ import {
   HiOutlineDocument,
   HiOutlineGlobeAsiaAustralia,
   HiOutlineRocketLaunch,
+  HiOutlineBookmark,
+  HiOutlineSparkles,
+  HiOutlineArrowUpRight,
 } from "react-icons/hi2";
 
 import {
@@ -74,6 +77,8 @@ export const iconLibrary: Record<string, IconType> = {
   arrowUpRightFromSquare: HiArrowTopRightOnSquare,
   document: HiOutlineDocument,
   rocket: HiOutlineRocketLaunch,
+  bookmark: HiOutlineBookmark,
+  sparkles: HiOutlineSparkles,
   javascript: SiJavascript,
   nextjs: SiNextdotjs,
   supabase: SiSupabase,
