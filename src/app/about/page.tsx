@@ -16,6 +16,7 @@ import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import GitHubCalendar from "@/components/about/GitHubCalendar";
 import WorkTimeline from "@/components/about/WorkTimeline";
+import SkillTag from "@/components/about/SkillTag";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
 
@@ -112,17 +113,17 @@ export default function About() {
             <GitHubCalendar username="Enigma-52" />
 
             {about.focus?.display && about.focus.items.length > 0 && (
-              <Column fillWidth gap="8">
-                <Text variant="label-strong-xs" onBackground="neutral-weak">
+              <Column fillWidth gap="12">
+                <Text variant="label-strong-s" onBackground="neutral-weak">
                   Currently
                 </Text>
-                <Column gap="8">
+                <Column gap="12">
                   {about.focus.items.map((item, i) => (
                     <Column
                       key={i}
                       fillWidth
-                      gap="4"
-                      padding="12"
+                      gap="8"
+                      padding="16"
                       border={i === 0 ? "brand-alpha-medium" : "neutral-alpha-weak"}
                       background={i === 0 ? "brand-alpha-weak" : "neutral-alpha-weak"}
                       radius="m"
@@ -131,16 +132,16 @@ export default function About() {
                         <Icon
                           name={i === 0 ? "rocket" : "sparkles"}
                           onBackground={i === 0 ? "brand-medium" : "neutral-medium"}
-                          size="xs"
+                          size="s"
                         />
                         <Text
-                          variant="label-strong-s"
+                          variant="label-strong-m"
                           onBackground={i === 0 ? "brand-medium" : "neutral-strong"}
                         >
                           {item.label}
                         </Text>
                       </Row>
-                      <Text variant="body-default-xs" onBackground="neutral-weak">
+                      <Text variant="body-default-s" onBackground="neutral-weak">
                         {item.description}
                       </Text>
                     </Column>
@@ -150,26 +151,30 @@ export default function About() {
             )}
 
             {about.technical.display && (
-              <Column fillWidth gap="12">
-                <Text variant="label-strong-xs" onBackground="neutral-weak">
+              <Column fillWidth gap="16">
+                <Text variant="label-strong-s" onBackground="neutral-weak">
                   Skills
                 </Text>
-                <Column gap="16">
+                <Column gap="24">
                   {about.technical.skills.map((skill, i) => (
-                    <Column key={i} gap="8">
-                      <Text variant="label-strong-xs" onBackground="neutral-medium">
+                    <Column key={i} gap="12">
+                      <Text variant="label-default-s" onBackground="neutral-medium">
                         {skill.title}
                       </Text>
                       {skill.tags && skill.tags.length > 0 ? (
-                        <Row wrap gap="4">
+                        <Row wrap gap="8">
                           {skill.tags.map((tag, ti) => (
-                            <Tag key={ti} size="s" prefixIcon={tag.icon}>
-                              {tag.name}
-                            </Tag>
+                            <SkillTag
+                              key={ti}
+                              name={tag.name}
+                              icon={tag.icon}
+                              href={tag.href}
+                              color={tag.color}
+                            />
                           ))}
                         </Row>
                       ) : (
-                        <Text variant="body-default-xs" onBackground="neutral-weak">
+                        <Text variant="body-default-s" onBackground="neutral-weak">
                           {skill.description}
                         </Text>
                       )}

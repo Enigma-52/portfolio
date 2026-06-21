@@ -203,6 +203,8 @@ export interface About extends BasePageConfig {
       tags?: Array<{
         name: string;
         icon?: string;
+        href?: string;
+        color?: string;
       }>;
       /** Images related to the skill */
       images?: Array<{
@@ -230,6 +232,16 @@ export interface Blog extends BasePageConfig {}
  * @description Configuration for the Work/Projects page, including metadata and navigation label.
  */
 export interface Work extends BasePageConfig {}
+
+/**
+ * Impact card — outcome-first project summary shown on home page.
+ */
+export interface ImpactCard {
+  title: string;
+  subtitle: string;
+  outcomes: string[];
+  href?: string;
+}
 
 /**
  * Shelf page configuration — curated finds.

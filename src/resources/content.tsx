@@ -1,4 +1,4 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Shelf, Social, Work } from "@/types";
+import { About, Blog, Gallery, Home, ImpactCard, Newsletter, Person, Shelf, Social, Work } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
@@ -176,38 +176,38 @@ const about: About = {
         title: "Languages & Backend",
         description: <>Backend-first engineering across product APIs, data workflows, and service reliability.</>,
         tags: [
-          { name: "C++", icon: "cplusplus" },
-          { name: "JavaScript", icon: "javascript" },
-          { name: "TypeScript", icon: "typescript" },
-          { name: "Node.js", icon: "nodejs" },
-          { name: "Express.js", icon: "express" },
+          { name: "C++", icon: "cplusplus", href: "https://cppreference.com", color: "#00599C" },
+          { name: "JavaScript", icon: "javascript", href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript", color: "#F7DF1E" },
+          { name: "TypeScript", icon: "typescript", href: "https://www.typescriptlang.org", color: "#3178C6" },
+          { name: "Node.js", icon: "nodejs", href: "https://nodejs.org", color: "#339933" },
+          { name: "Express.js", icon: "express", href: "https://expressjs.com", color: "#888888" },
         ],
       },
       {
         title: "Frontend & Product",
         description: <>Comfortable shipping complete product experiences where needed.</>,
         tags: [
-          { name: "HTML", icon: "html5" },
-          { name: "CSS", icon: "css3" },
-          { name: "React.js", icon: "react" },
-          { name: "Tailwind CSS", icon: "tailwindcss" },
-          { name: "Redux", icon: "redux" },
+          { name: "HTML", icon: "html5", href: "https://developer.mozilla.org/en-US/docs/Web/HTML", color: "#E34F26" },
+          { name: "CSS", icon: "css3", href: "https://developer.mozilla.org/en-US/docs/Web/CSS", color: "#1572B6" },
+          { name: "React.js", icon: "react", href: "https://react.dev", color: "#61DAFB" },
+          { name: "Tailwind CSS", icon: "tailwindcss", href: "https://tailwindcss.com", color: "#06B6D4" },
+          { name: "Redux", icon: "redux", href: "https://redux.js.org", color: "#764ABC" },
         ],
       },
       {
         title: "Data & Infrastructure",
         description: <>Data stores, caching, and cloud-first deployment for production workloads.</>,
         tags: [
-          { name: "MySQL", icon: "mysql" },
-          { name: "PostgreSQL", icon: "postgresql" },
-          { name: "MongoDB", icon: "mongodb" },
-          { name: "Firebase", icon: "firebase" },
-          { name: "Google Cloud", icon: "googlecloud" },
-          { name: "Docker", icon: "docker" },
-          { name: "Prefect", icon: "prefect" },
-          { name: "Redis", icon: "redis" },
-          { name: "Kubernetes", icon: "kubernetes" },
-          { name: "Jest", icon: "jest" },
+          { name: "MySQL", icon: "mysql", href: "https://www.mysql.com", color: "#4479A1" },
+          { name: "PostgreSQL", icon: "postgresql", href: "https://www.postgresql.org", color: "#4169E1" },
+          { name: "MongoDB", icon: "mongodb", href: "https://www.mongodb.com", color: "#47A248" },
+          { name: "Firebase", icon: "firebase", href: "https://firebase.google.com", color: "#FFCA28" },
+          { name: "Google Cloud", icon: "googlecloud", href: "https://cloud.google.com", color: "#4285F4" },
+          { name: "Docker", icon: "docker", href: "https://www.docker.com", color: "#2496ED" },
+          { name: "Prefect", icon: "prefect", href: "https://prefect.io", color: "#6E56CF" },
+          { name: "Redis", icon: "redis", href: "https://redis.io", color: "#DC382D" },
+          { name: "Kubernetes", icon: "kubernetes", href: "https://kubernetes.io", color: "#326CE5" },
+          { name: "Jest", icon: "jest", href: "https://jestjs.io", color: "#C21325" },
         ],
       },
       {
@@ -269,6 +269,42 @@ const shelf: Shelf = {
   ],
 };
 
+const impacts: ImpactCard[] = [
+  {
+    title: "BuildStack",
+    subtitle: "Microservices Platform",
+    outcomes: [
+      "TypeScript microservices on GCP",
+      "PostgreSQL with Redis caching layer",
+      "Clear service boundaries & observability",
+      "Cloud-deployed, production-ready",
+    ],
+    href: "/work/building-once-ui-a-customizable-design-system",
+  },
+  {
+    title: "WorkWay",
+    subtitle: "Global Jobs Aggregator",
+    outcomes: [
+      "24,000+ job listings ingested",
+      "Users across 40+ countries",
+      "Automated aggregation pipeline",
+      "Real-time searchable feed",
+    ],
+    href: "/work/workway-global-jobs-aggregator",
+  },
+  {
+    title: "Buildr",
+    subtitle: "Developer Portfolio Platform",
+    outcomes: [
+      "200+ active developer users",
+      "React + Firebase architecture",
+      "Zero-setup hosted portfolios",
+      "Self-service deployment flow",
+    ],
+    href: "/work/simple-portfolio-builder",
+  },
+];
+
 const gallery: Gallery = {
   path: "/gallery",
   label: "Gallery",
@@ -277,4 +313,4 @@ const gallery: Gallery = {
   images: [],
 };
 
-export { person, social, newsletter, home, about, blog, work, shelf, gallery };
+export { person, social, newsletter, home, about, blog, work, shelf, impacts, gallery };

@@ -8,6 +8,7 @@ export {
   blog,
   work,
   shelf,
+  impacts,
   gallery,
 } from "./content";
 

@@ -15,6 +15,7 @@ import {
   HiOutlineBookmark,
   HiOutlineSparkles,
   HiOutlineArrowUpRight,
+  HiMiniCheck,
 } from "react-icons/hi2";
 
 import {
@@ -79,6 +80,7 @@ export const iconLibrary: Record<string, IconType> = {
   rocket: HiOutlineRocketLaunch,
   bookmark: HiOutlineBookmark,
   sparkles: HiOutlineSparkles,
+  check: HiMiniCheck,
   javascript: SiJavascript,
   nextjs: SiNextdotjs,
   supabase: SiSupabase,
