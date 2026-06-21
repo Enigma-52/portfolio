@@ -273,35 +273,77 @@ const impacts: ImpactCard[] = [
   {
     title: "BuildStack",
     subtitle: "Microservices Platform",
-    outcomes: [
-      "TypeScript microservices on GCP",
-      "PostgreSQL with Redis caching layer",
-      "Clear service boundaries & observability",
-      "Cloud-deployed, production-ready",
+    metric: { value: "5", label: "services" },
+    features: [
+      "Modular TypeScript microservices on GCP",
+      "PostgreSQL + Redis caching layer",
+      "Event logging & observability",
+      "Dockerized cloud deployment",
     ],
+    tech: ["TypeScript", "Node.js", "PostgreSQL", "Redis", "Docker", "GCP"],
     href: "/work/building-once-ui-a-customizable-design-system",
   },
   {
     title: "WorkWay",
     subtitle: "Global Jobs Aggregator",
-    outcomes: [
-      "24,000+ job listings ingested",
+    metric: { value: "24K+", label: "listings" },
+    features: [
+      "Automated ingestion from Greenhouse API",
       "Users across 40+ countries",
-      "Automated aggregation pipeline",
       "Real-time searchable feed",
+      "Scalable data compilation pipeline",
     ],
+    tech: ["Node.js", "Express", "REST APIs", "Data Pipelines"],
     href: "/work/workway-global-jobs-aggregator",
   },
   {
     title: "Buildr",
     subtitle: "Developer Portfolio Platform",
-    outcomes: [
-      "200+ active developer users",
-      "React + Firebase architecture",
+    metric: { value: "200+", label: "users" },
+    features: [
       "Zero-setup hosted portfolios",
       "Self-service deployment flow",
+      "Cloud Functions for backend logic",
+      "Low-friction onboarding UX",
     ],
+    tech: ["React", "Firebase", "Cloud Functions", "Firestore"],
     href: "/work/simple-portfolio-builder",
+  },
+  {
+    title: "Concall Pipeline",
+    subtitle: "AI Research Automation",
+    metric: { value: "100s", label: "reports processed" },
+    features: [
+      "Prefect-orchestrated processing pipeline",
+      "Gemini OCR + LLM summarization",
+      "Insight extraction & semantic indexing",
+      "Automated management team extraction",
+    ],
+    tech: ["Python", "Prefect", "Gemini", "PostgreSQL", "pgvector"],
+  },
+  {
+    title: "News Dedup Engine",
+    subtitle: "Semantic Content Filtering",
+    metric: { value: "40%", label: "less noise" },
+    features: [
+      "Embedding-based semantic clustering",
+      "Cosine similarity de-duplication",
+      "Improved feed quality at scale",
+      "Integrated into live news pipeline",
+    ],
+    tech: ["Python", "LLM Embeddings", "PostgreSQL", "Redis"],
+  },
+  {
+    title: "Multi-tenant SaaS",
+    subtitle: "Enterprise Backend Platform",
+    metric: { value: "Live", label: "in production" },
+    features: [
+      "Core backend systems in Python",
+      "Multi-tenant data isolation",
+      "Zango framework architecture",
+      "Stable production feature delivery",
+    ],
+    tech: ["Python", "Zango", "PostgreSQL", "Multi-tenancy"],
   },
 ];
 

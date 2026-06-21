@@ -1,59 +1,80 @@
-import { Card, Column, Grid, Icon, Row, Text } from "@once-ui-system/core";
+"use client";
+
+import { useRef, useCallback } from "react";
+import { Icon } from "@once-ui-system/core";
 import { impacts } from "@/resources";
+import styles from "./ImpactCards.module.scss";
 
 export function ImpactCards() {
   if (!impacts.length) return null;
 
   return (
-    <Grid columns="3" s={{ columns: "1" }} fillWidth gap="16">
+    <div className={styles.grid}>
       {impacts.map((card, i) => (
-        <Card
-          key={i}
-          fillWidth
-          href={card.href}
-          transition="micro-medium"
-          border="neutral-alpha-weak"
-          background="neutral-alpha-weak"
-          radius="l"
-          padding="0"
-          overflow="hidden"
-        >
-          {/* Brand accent top bar */}
-          <Row fillWidth height="4" background="brand-alpha-strong" />
-
-          <Column gap="20" padding="24">
-            {/* Header */}
-            <Column gap="4">
-              <Text variant="heading-strong-l">{card.title}</Text>
-              <Text variant="label-default-s" onBackground="neutral-weak">
-                {card.subtitle}
-              </Text>
-            </Column>
-
-            {/* Outcomes */}
-            <Column gap="12">
-              {card.outcomes.map((outcome, j) => (
-                <Row key={j} gap="12" vertical="center">
-                  <Row
-                    minWidth="20"
-                    height="20"
-                    radius="full"
-                    background="brand-alpha-weak"
-                    horizontal="center"
-                    vertical="center"
-                    style={{ flexShrink: 0 }}
-                  >
-                    <Icon name="check" onBackground="brand-medium" size="xs" />
-                  </Row>
-                  <Text variant="body-default-s" onBackground="neutral-weak">
-                    {outcome}
-                  </Text>
-                </Row>
-              ))}
-            </Column>
-          </Column>
-        </Card>
+        <FeatureCard key={i} card={card} />
       ))}
-    </Grid>
+    </div>
+  );
+}
+
+function FeatureCard({ card }: { card: (typeof impacts)[number] }) {
+  const cardRef = useRef<HTMLAnchorElement | HTMLDivElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+  }, []);
+
+  const Tag = card.href ? "a" : "div";
+
+  return (
+    <Tag
+      ref={cardRef as any}
+      className={styles.card}
+      href={card.href || undefined}
+      onMouseMove={handleMouseMove}
+    >
+      {card.href && (
+        <span className={styles.arrow}>
+          <Icon name="arrowUpRight" size="s" />
+        </span>
+      )}
+
+      <div className={styles.header}>
+        <span style={{ fontSize: "1.125rem", fontWeight: 600 }}>{card.title}</span>
+        <span style={{ fontSize: "0.8125rem", color: "var(--neutral-on-background-weak)" }}>
+          {card.subtitle}
+        </span>
+      </div>
+
+      {card.metric && (
+        <div className={styles.metric}>
+          <span className={styles.metricValue}>{card.metric.value}</span>
+          <span className={styles.metricLabel}>{card.metric.label}</span>
+        </div>
+      )}
+
+      <div className={styles.divider} />
+
+      <div className={styles.features}>
+        {card.features.map((feature, j) => (
+          <div key={j} className={styles.feature}>
+            <span className={styles.featureDot} />
+            {feature}
+          </div>
+        ))}
+      </div>
+
+      <div className={styles.techStack}>
+        {card.tech.map((t, j) => (
+          <span key={j} className={styles.techTag}>
+            {t}
+          </span>
+        ))}
+      </div>
+    </Tag>
   );
 }
