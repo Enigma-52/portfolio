@@ -1,95 +1,54 @@
-## Rohit Singh's Portfolio
+# enigma52.vercel.app
 
-This is Rohit Singh's personal portfolio website, built on top of the Magic Portfolio template. It uses an MDX-based content
-system for projects and blog posts, an about / CV page and a gallery.
+Personal portfolio of **Rohit Singh** — backend engineer focused on distributed systems, AI infrastructure, and developer tools.
 
-Magic Portfolio is built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org).
+Built with [Next.js](https://nextjs.org) and [Once UI](https://once-ui.com) (Magic Portfolio base), heavily customized into an editorial, systems-themed design: hairline-ruled lists instead of card grids, mono utility labels, Bricolage Grotesque display type, and a live "systems in flight" status board.
 
-### Platform overview
+**Live**: https://enigma52.vercel.app
 
-- **Tech stack**: Next.js + Once UI + MDX content for projects and blog posts.
-- **Core config**: All profile-level content lives in `src/resources/content.tsx`.
-- **Design system & theme**: Global design, fonts and effects are configured in `src/resources/once-ui.config.ts`.
-- **Projects**: Project pages are MDX files in `src/app/work/projects/`.
-- **Blog posts**: Blog posts are MDX files in `src/app/blog/posts/`.
-- **Shared components**: Layout pieces like the footer live in `src/components/`.
+## What's on the site
 
-### How profile data is structured
+- **Landing** — centered hero, "Systems in flight" status board (what I'm building/learning now), "Shipped systems" ledger with org context tags and animated metrics, blog highlights, off-the-clock interests, photo strip.
+- **About** — plain-language + technical intro, work timeline, GitHub contribution graph, skills, resume download (`/resume.pdf`).
+- **Work** — editorial case-study list backed by MDX files.
+- **Blog** — field notes on backend architecture and production systems.
+- **Shelf** — tools, reads, repos, and ideas worth revisiting.
+- **Gallery** — life around the code.
+- **Extras** — RSS (`/api/rss`), `llms.txt` for AI crawlers, custom OG image, profile-photo favicon.
 
-- **Person**: Name, role, avatar, email, timezone, and languages are defined as a `person` object in
-  `src/resources/content.tsx`. This is used across the whole app (header, footer, meta, etc.).
-- **About page**: The `about` object in `src/resources/content.tsx` controls:
-  - Intro text
-  - Work experience (company, timeframe, role, achievements)
-  - Studies / education
-  - Technical skills sections
-- **Pages**:
-  - `home` controls the landing page headline and subline.
-  - `blog`, `work`, and `gallery` control labels, titles, and descriptions for their respective pages.
+## Editing guide
 
-### How to edit the profile for a new person (the “playbook” we followed for Rohit)
+Almost everything is content-as-data:
 
-1. **Update core identity in `src/resources/content.tsx`**  
-   - Edit the `person` object (first name, last name, display name, role, avatar path, email, timezone, languages) to
-     match the new person.
+| What | Where |
+|---|---|
+| Identity, hero copy, socials | `src/resources/content.tsx` (`person`, `home`, `social`) |
+| Systems in flight board | `building` array in `content.tsx` (status, description, optional `href`) |
+| Shipped systems ledger | `impacts` array in `content.tsx` (metric, features, tech, `context` tag) |
+| Shelf items | `shelf.items` in `content.tsx` |
+| About page sections | `about` object in `content.tsx` |
+| Case studies | MDX files in `src/app/work/projects/` |
+| Blog posts | MDX files in `src/app/blog/posts/` |
+| Theme, fonts, background effects, routes, `baseURL` | `src/resources/once-ui.config.ts` |
+| Global CSS (highlight animation `.hl`, status pulse) | `src/resources/custom.css` |
+| Landing/editorial styles | `src/components/home/home.module.scss` |
 
-2. **Update the home page text**  
-   - In the `home` object, change:
-     - `title` and `description` if the role or name changes.
-     - `headline` and `subline` to summarize the new person's background and focus areas.
+Notes:
 
-3. **Update the About page**  
-   - In the `about` object:
-     - Replace the `intro.description` with a short paragraph based only on the new person's CV/resume.
-     - Replace the `work.experiences` array with entries for each role (company, timeframe, role, and achievements).
-     - Update `studies.institutions` with the correct degree, school, years, and location.
-     - Rewrite `technical.skills` to group skills into a few meaningful sections (languages/backend, web, databases/cloud
-       and tooling, etc.).
+- To add images back to a case study, add an `images:` list to its MDX frontmatter — the detail page picks them up automatically.
+- Gallery photos live in `public/images/gallery/`; swap the files (or edit paths in `content.tsx` and the landing photo strip in `src/app/page.tsx`).
+- Wrap any phrase in `<span className="hl">…</span>` for the animated attention highlight.
+- Favicon/app icons (`src/app/favicon.ico`, `icon.png`, `apple-icon.png`) are generated from `public/images/avatar.jpg`.
 
-4. **Update social links**  
-   - In the `social` array in `src/resources/content.tsx`, set:
-     - `name` (e.g. "GitHub", "LinkedIn")
-     - `icon` (must exist in `src/resources/icons.ts`)
-     - `link` (full URL or `mailto:` link)
+## Development
 
-5. **Update schema/SEO config**  
-   - In `src/resources/once-ui.config.ts`:
-     - Set `baseURL` to the actual deployed URL of the portfolio when you have it.
-     - Ensure `schema` uses:
-       - `type: "Person"`
-       - `name` and `email` from the `person` object.
-     - Optionally set `sameAs.linkedin` (and other fields) to the person's own profiles.
+```bash
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # production build
+```
 
-6. **Projects and blog posts**  
-   - Projects live in `src/app/work/projects/` as MDX files. For Rohit:
-     - `building-once-ui-a-customizable-design-system.mdx` was repurposed into a single sample project file describing
-       Rohit's `BuildStack` project.
-   - Blog posts live in `src/app/blog/posts/` as MDX files. For Rohit:
-     - Only `quick-start.mdx` is kept as a sample/tutorial post; the other template posts were removed.
-   - To add more:
-     - Duplicate the sample project or blog file.
-     - Change the frontmatter (`title`, `summary`, `publishedAt`, `images`, etc.).
-     - Update the body markdown and any component usage.
+## Docs
 
-### Design & customization notes (without changing the current design)
-
-- **Design tokens & theme**  
-  - Controlled in `src/resources/once-ui.config.ts` via the `style` object (theme, neutral, brand, accent, border,
-    surface, etc.).
-  - The current configuration is left as-is to preserve the original design. If you change these values, the design will
-    update globally.
-
-- **Background effects & data visuals**  
-  - The `effects` and `dataStyle` objects in `once-ui.config.ts` control background graphics and chart styling.
-  - These are currently configured to match the Magic Portfolio defaults and can be tweaked without touching layout
-    code.
-
-- **Routing & protected routes**  
-  - Enabled routes are defined in the `routes` object in `once-ui.config.ts`.
-  - `protectedRoutes` can be used to password-protect specific pages. For Rohit's portfolio this is currently an empty
-    object (no protected pages).
-
-### External docs
-
-- **Magic Portfolio docs**: `https://docs.once-ui.com/docs/magic-portfolio/quick-start`  
-  Use these for deeper Once UI and Magic Portfolio specifics (component APIs, advanced styling, etc.).
+- Magic Portfolio: https://docs.once-ui.com/docs/magic-portfolio/quick-start
+- Once UI components: https://docs.once-ui.com
