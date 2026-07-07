@@ -13,9 +13,7 @@ import {
 } from "@/types";
 import { home, person } from "./index";
 
-// IMPORTANT: This is the fixed base URL used for metadata.
-// The template ships with the demo domain, and URLs are not dynamic per profile.
-const baseURL: string = "https://demo.magic-portfolio.com";
+const baseURL: string = "https://enigma52.vercel.app";
 
 const routes: RoutesConfig = {
   "/": true,
@@ -23,7 +21,7 @@ const routes: RoutesConfig = {
   "/work": true,
   "/blog": true,
   "/shelf": true,
-  "/gallery": false,
+  "/gallery": true,
 };
 
 const display: DisplayConfig = {
@@ -37,10 +35,9 @@ const display: DisplayConfig = {
 const protectedRoutes: ProtectedRoutesConfig = {};
 
 // Import and set font for each variant
-import { Geist } from "next/font/google";
-import { Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 
-const heading = Geist({
+const heading = Bricolage_Grotesque({
   variable: "--font-heading",
   subsets: ["latin"],
   display: "swap",
@@ -52,7 +49,7 @@ const body = Geist({
   display: "swap",
 });
 
-const label = Geist({
+const label = Geist_Mono({
   variable: "--font-label",
   subsets: ["latin"],
   display: "swap",
@@ -74,12 +71,12 @@ const fonts: FontsConfig = {
 // default customization applied to the HTML in the main layout.tsx
 const style: StyleConfig = {
   theme: "dark", // dark | light | system
-  neutral: "gray", // sand | gray | slate | mint | rose | dusk | custom
+  neutral: "slate", // sand | gray | slate | mint | rose | dusk | custom
   brand: "cyan", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom
-  accent: "red", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom
+  accent: "blue", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom
   solid: "contrast", // color | contrast
   solidStyle: "flat", // flat | plastic
-  border: "playful", // rounded | playful | conservative | sharp
+  border: "conservative", // rounded | playful | conservative | sharp
   surface: "translucent", // filled | translucent
   transition: "all", // all | micro | macro
   scaling: "100", // 90 | 95 | 100 | 105 | 110
@@ -107,28 +104,28 @@ const effects: EffectsConfig = {
     radius: 100,
   },
   gradient: {
-    display: false,
-    opacity: 100,
+    display: true,
+    opacity: 30,
     x: 50,
-    y: 60,
-    width: 100,
-    height: 50,
+    y: 0,
+    width: 120,
+    height: 40,
     tilt: 0,
-    colorStart: "accent-background-strong",
+    colorStart: "brand-background-strong",
     colorEnd: "page-background",
   },
   dots: {
-    display: true,
+    display: false,
     opacity: 40,
     size: "2",
     color: "brand-background-strong",
   },
   grid: {
-    display: false,
-    opacity: 100,
-    color: "neutral-alpha-medium",
-    width: "0.25rem",
-    height: "0.25rem",
+    display: true,
+    opacity: 30,
+    color: "neutral-alpha-weak",
+    width: "2rem",
+    height: "2rem",
   },
   lines: {
     display: false,
