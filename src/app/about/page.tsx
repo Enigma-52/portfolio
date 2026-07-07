@@ -239,6 +239,19 @@ export default function About() {
                 fitWidth
                 data-border="rounded"
               >
+                <Row s={{ hide: true }}>
+                  <Button
+                    href="/resume.pdf"
+                    prefixIcon="document"
+                    label="Resume"
+                    size="s"
+                    weight="default"
+                    variant="primary"
+                  />
+                </Row>
+                <Row hide s={{ hide: false }}>
+                  <IconButton size="l" href="/resume.pdf" icon="document" variant="primary" />
+                </Row>
                 {social
                       .filter((item) => item.essential)
                       .map(
