@@ -1,4 +1,4 @@
-# enigma52.vercel.app
+# Personal Portfolio Website
 
 Personal portfolio of **Rohit Singh** — backend engineer focused on distributed systems, AI infrastructure, and developer tools.
 
