@@ -1,0 +1,78 @@
+/* Case study entry — editorial row, consistent with the ledger aesthetic */
+
+.entry {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: 2rem;
+  align-items: start;
+  padding: 2rem 1rem;
+  border-top: 1px solid var(--neutral-alpha-weak);
+  border-left: 2px solid transparent;
+  transition:
+    background 0.3s ease,
+    border-left-color 0.3s ease;
+}
+
+.entry:hover {
+  background: var(--neutral-alpha-weak);
+  border-left-color: var(--brand-solid-strong);
+}
+
+.year {
+  font-family: var(--font-code), monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  color: var(--neutral-on-background-weak);
+  padding-top: 0.375rem;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--neutral-on-background-strong);
+}
+
+a.titleLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+a.titleLink:hover .title {
+  color: var(--brand-on-background-medium);
+}
+
+.summary {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--neutral-on-background-medium);
+  max-width: 40rem;
+}
+
+.links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-top: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .entry {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 1.5rem 0.5rem;
+  }
+
+  .year {
+    padding-top: 0;
+  }
+}

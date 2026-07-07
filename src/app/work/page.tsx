@@ -1,6 +1,7 @@
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
-import { baseURL, about, person, work } from "@/resources";
+import { Column, Heading, Meta, Row, Schema, SmartLink, Text } from "@once-ui-system/core";
+import { baseURL, about, person, social, work } from "@/resources";
 import { Projects } from "@/components/work/Projects";
+import styles from "@/components/home/home.module.scss";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -28,10 +29,22 @@ export default function Work() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Heading marginBottom="l" variant="heading-strong-xl" align="center">
-        {work.title}
-      </Heading>
+      <Column fillWidth gap="16" marginBottom="l">
+        <span className={styles.eyebrow}>Case studies</span>
+        <Heading variant="display-strong-m">{work.title}</Heading>
+        <Text onBackground="neutral-weak" variant="heading-default-xs" wrap="balance">
+          {work.description}
+        </Text>
+      </Column>
       <Projects />
+      <Row fillWidth horizontal="center" paddingBottom="40">
+        <SmartLink
+          suffixIcon="arrowUpRightFromSquare"
+          href={social.find((s) => s.name === "GitHub")?.link || "https://github.com/Enigma-52"}
+        >
+          <Text variant="body-default-s">More experiments and source on GitHub</Text>
+        </SmartLink>
+      </Row>
     </Column>
   );
 }

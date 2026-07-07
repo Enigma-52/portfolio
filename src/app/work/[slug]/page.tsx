@@ -20,6 +20,7 @@ import { formatDate } from "@/utils/formatDate";
 import { ScrollToHash, CustomMDX } from "@/components";
 import { Metadata } from "next";
 import { Projects } from "@/components/work/Projects";
+import styles from "@/components/home/home.module.scss";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "work", "projects"]);
@@ -92,32 +93,51 @@ export default async function Project({
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Column maxWidth="s" gap="16" horizontal="center" align="center">
-        <SmartLink href="/work">
-          <Text variant="label-strong-m">Projects</Text>
-        </SmartLink>
-        <Text variant="body-default-xs" onBackground="neutral-weak" marginBottom="12">
-          {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
-        </Text>
-        <Heading variant="display-strong-m">{post.metadata.title}</Heading>
-      </Column>
-      <Row marginBottom="32" horizontal="center">
-        <Row gap="16" vertical="center">
-          {post.metadata.team && <AvatarGroup reverse avatars={avatars} size="s" />}
-          <Text variant="label-default-m" onBackground="brand-weak">
-            {post.metadata.team?.map((member, idx) => (
-              <span key={idx}>
-                {idx > 0 && (
-                  <Text as="span" onBackground="neutral-weak">
-                    ,{" "}
-                  </Text>
-                )}
-                <SmartLink href={member.linkedIn}>{member.name}</SmartLink>
-              </span>
-            ))}
+      <Column fillWidth gap="16" paddingTop="24">
+        <span className={styles.eyebrow}>Case study</span>
+        <Heading variant="display-strong-m" wrap="balance">
+          {post.metadata.title}
+        </Heading>
+        {post.metadata.summary && (
+          <Text variant="heading-default-xs" onBackground="neutral-weak" wrap="balance">
+            {post.metadata.summary}
           </Text>
+        )}
+        <Row gap="16" vertical="center" marginBottom="16" wrap>
+          {post.metadata.team && post.metadata.team.length > 0 ? (
+            <Row gap="8" vertical="center">
+              <AvatarGroup reverse avatars={avatars} size="s" />
+              <Text variant="label-default-s" onBackground="brand-weak">
+                {post.metadata.team.map((member, idx) => (
+                  <span key={idx}>
+                    {idx > 0 && (
+                      <Text as="span" onBackground="neutral-weak">
+                        ,{" "}
+                      </Text>
+                    )}
+                    <SmartLink href={member.linkedIn}>{member.name}</SmartLink>
+                  </span>
+                ))}
+              </Text>
+            </Row>
+          ) : (
+            <Row gap="8" vertical="center">
+              <Avatar src={person.avatar} size="s" />
+              <Text variant="label-default-m" onBackground="neutral-medium">
+                {person.name}
+              </Text>
+            </Row>
+          )}
+          {post.metadata.publishedAt && (
+            <Text variant="label-default-s" onBackground="neutral-weak">
+              {formatDate(post.metadata.publishedAt)}
+            </Text>
+          )}
+          <SmartLink href="/work">
+            <Text variant="label-default-s">← All projects</Text>
+          </SmartLink>
         </Row>
-      </Row>
+      </Column>
       {post.metadata.images.length > 0 && (
         <Media priority aspectRatio="16 / 9" radius="m" alt="image" src={post.metadata.images[0]} />
       )}
