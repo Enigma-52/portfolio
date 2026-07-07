@@ -9,6 +9,7 @@ export {
   work,
   shelf,
   impacts,
+  building,
   gallery,
 } from "./content";
 

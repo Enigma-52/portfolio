@@ -239,6 +239,8 @@ export interface Work extends BasePageConfig {}
 export interface ImpactCard {
   title: string;
   subtitle: string;
+  /** Where it was built, e.g. "@ FrontPage" or "Personal" */
+  context?: string;
   metric?: { value: string; label: string };
   features: string[];
   tech: string[];

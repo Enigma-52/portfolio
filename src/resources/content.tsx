@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { About, Blog, Gallery, Home, ImpactCard, Newsletter, Person, Shelf, Social, Work } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
@@ -5,7 +6,7 @@ const person: Person = {
   firstName: "Rohit",
   lastName: "Singh",
   name: `Rohit Singh`,
-  role: "Software Engineer - Backend",
+  role: "Backend Engineer",
   avatar: "/images/avatar.jpg",
   email: "rohitsingh.work.25@gmail.com",
   location: "Asia/Kolkata",
@@ -43,27 +44,27 @@ const home: Home = {
   path: "/",
   image: "/images/og/home.jpg",
   label: "Home",
-  title: `${person.name}'s Portfolio`,
-  description: `Portfolio website showcasing backend engineering work by ${person.name}`,
-  headline: <>Building backend systems for data-heavy products</>,
+  title: `${person.name} — Backend Engineer`,
+  description: `${person.name} builds backend systems: distributed workflows, AI infrastructure, and production APIs.`,
+  headline: <>Most of my work is invisible. That's how you know it's working.</>,
   featured: {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Featured project</strong>{" "}
+        <strong className="ml-4">Now building</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
-          BuildStack
+          Saga — engineering work, turned into content
         </Text>
       </Row>
     ),
-    href: "/work/building-once-ui-a-customizable-design-system",
+    href: "/work",
   },
   subline: (
     <>
-      I build reliable backend platforms, AI-assisted data pipelines, and production APIs.
-      <br />
-      Currently at Zelthy, previously at FrontPage, focused on shipping stable systems that serve real user workflows.
+      I'm a backend engineer. I build the parts of software you never see — the services and
+      pipelines that quietly keep everything running. Right now that's at Zelthy; before that,
+      FrontPage (YC S21). Nights and weekends, I build my own tools for engineers.
     </>
   ),
 };
@@ -89,9 +90,20 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Software engineer focused on backend systems, distributed workflows, and AI-assisted data products. I enjoy
-        turning ambiguous product ideas into stable production services with clear data models, observability, and
-        operational reliability.
+        <p style={{ margin: 0 }}>
+          I'm a backend engineer — I build the parts of software products that users never see but
+          always depend on: the services, databases, and pipelines that keep everything fast and
+          reliable. I care about what happens when things go wrong, and I design systems that recover
+          gracefully instead of falling over.
+        </p>
+        <p style={{ margin: "1rem 0 0" }}>
+          Technically, my interests sit at the intersection of distributed systems and AI
+          infrastructure — event-driven architecture, message queues, idempotency, PostgreSQL and
+          Redis internals, and LLM orchestration that runs in production rather than in a demo. I like
+          understanding why production systems are designed the way they are, then shipping focused
+          products that apply those lessons. Outside work I build developer tools — currently Saga, an
+          AI copilot that turns real engineering work into technical content.
+        </p>
       </>
     ),
   },
@@ -164,8 +176,8 @@ const about: About = {
   focus: {
     display: true,
     items: [
-      { label: "Building", description: "Multi-tenant SaaS backend at Zelthy" },
-      { label: "Exploring", description: "LLM orchestration & Prefect pipelines" },
+      { label: "Building", description: "Saga — AI copilot that turns engineering work into content" },
+      { label: "Exploring", description: "Distributed transactions, outbox pattern, Kafka, Redis locking" },
     ],
   },
   technical: {
@@ -211,6 +223,15 @@ const about: About = {
         ],
       },
       {
+        title: "Systems & Patterns",
+        description: (
+          <>
+            Event-driven architecture, message queues, the outbox pattern, idempotency, caching
+            strategies, and distributed transactions — the reliability toolkit behind everything I ship.
+          </>
+        ),
+      },
+      {
         title: "Competitive Programming",
         description: <>Codeforces Specialist (1413), LeetCode 1837 rating, and 1000+ solved problems.</>,
       },
@@ -221,22 +242,22 @@ const about: About = {
 const blog: Blog = {
   path: "/blog",
   label: "Blog",
-  title: "Backend engineering notes",
-  description: `Concise notes from ${person.name} on backend architecture, pipelines, and shipping production systems.`,
+  title: "Field notes from production",
+  description: `Notes from ${person.name} on backend architecture, pipelines, and why production systems are built the way they are.`,
 };
 
 const work: Work = {
   path: "/work",
   label: "Projects",
-  title: `Projects – ${person.name}`,
-  description: `Selected backend and product engineering projects by ${person.name}`,
+  title: "Selected work",
+  description: `Backend platforms, data pipelines, and developer tools built by ${person.name}`,
 };
 
 const shelf: Shelf = {
   path: "/shelf",
   label: "Shelf",
   title: `Shelf – ${person.name}`,
-  description: `Things ${person.name} finds uniquely interesting — tools, reads, repos, and ideas worth revisiting.`,
+  description: `A running list of tools, reads, repos, and ideas I keep coming back to.`,
   items: [
     {
       title: "Prefect",
@@ -262,6 +283,16 @@ const shelf: Shelf = {
       category: "read",
     },
     {
+      title: "The outbox pattern",
+      description: <>The cleanest answer to "how do I atomically update my database and publish an event?" — the kind of reliability pattern I keep coming back to.</>,
+      category: "idea",
+    },
+    {
+      title: "Generative Engine Optimization",
+      description: <>SEO for AI answers. As discovery shifts from search results to LLM responses, structuring content so models cite you becomes a real distribution channel.</>,
+      category: "idea",
+    },
+    {
       title: "Semantic de-duplication with embeddings",
       description: <>Using cosine similarity on LLM embeddings to cluster near-duplicate news articles — built this at FrontPage and it meaningfully improved feed quality.</>,
       category: "idea",
@@ -269,36 +300,68 @@ const shelf: Shelf = {
   ],
 };
 
-const impacts: ImpactCard[] = [
+export interface BuildingProject {
+  name: string;
+  status: "active" | "planned" | "oss" | "live" | "learning";
+  statusLabel: string;
+  description: ReactNode;
+  audience?: string;
+  href?: string;
+}
+
+const building: BuildingProject[] = [
   {
-    title: "BuildStack",
-    subtitle: "Microservices Platform",
-    metric: { value: "5", label: "services" },
-    features: [
-      "Modular TypeScript microservices on GCP",
-      "PostgreSQL + Redis caching layer",
-      "Event logging & observability",
-      "Dockerized cloud deployment",
-    ],
-    tech: ["TypeScript", "Node.js", "PostgreSQL", "Redis", "Docker", "GCP"],
-    href: "/work/building-once-ui-a-customizable-design-system",
+    name: "Saga",
+    status: "active",
+    statusLabel: "ACTIVE",
+    description:
+      "AI copilot that turns real engineering work — commits, PRs, releases — into posts, threads, changelogs, and launch announcements.",
+    audience: "Indie hackers, founders, engineering teams",
   },
   {
+    name: "Beacon",
+    status: "oss",
+    statusLabel: "PLANNED · OSS",
+    description:
+      "Research and navigation layer for open source. Analyzes a repo's issues, reviews, and maintainer activity to answer: is this worth contributing to, and where do I start?",
+    audience: "Open source contributors, new codebase onboarding",
+  },
+  {
+    name: "Pulse",
+    status: "planned",
+    statusLabel: "PLANNED",
+    description:
+      "One dashboard for engineering operations — infra metrics, logs, background jobs, API performance, and business KPIs in a single view.",
+    audience: "Startup engineering teams, platform engineers",
+  },
+  {
+    name: "Distributed systems, deeply",
+    status: "learning",
+    statusLabel: "LEARNING",
+    description:
+      "Going deep on Kafka, distributed transactions, the outbox pattern, and Redis locking — understanding why reliable infrastructure is designed the way it is.",
+  },
+];
+
+const impacts: ImpactCard[] = [
+  {
     title: "WorkWay",
-    subtitle: "Global Jobs Aggregator",
-    metric: { value: "24K+", label: "listings" },
+    subtitle: "Job Discovery Platform",
+    context: "Personal",
+    metric: { value: "350K+", label: "jobs indexed" },
     features: [
-      "Automated ingestion from Greenhouse API",
-      "Users across 40+ countries",
-      "Real-time searchable feed",
-      "Scalable data compilation pipeline",
+      "900K+ search impressions",
+      "Viewers from 150+ countries",
+      "Google for Jobs indexing & SEO-first listings",
+      "Automated ingestion pipelines",
     ],
-    tech: ["Node.js", "Express", "REST APIs", "Data Pipelines"],
+    tech: ["Node.js", "Express", "REST APIs", "Data Pipelines", "SEO"],
     href: "/work/workway-global-jobs-aggregator",
   },
   {
     title: "Buildr",
     subtitle: "Developer Portfolio Platform",
+    context: "Personal",
     metric: { value: "200+", label: "users" },
     features: [
       "Zero-setup hosted portfolios",
@@ -312,6 +375,7 @@ const impacts: ImpactCard[] = [
   {
     title: "Concall Pipeline",
     subtitle: "AI Research Automation",
+    context: "@ FrontPage",
     metric: { value: "100s", label: "reports processed" },
     features: [
       "Prefect-orchestrated processing pipeline",
@@ -324,6 +388,7 @@ const impacts: ImpactCard[] = [
   {
     title: "News Dedup Engine",
     subtitle: "Semantic Content Filtering",
+    context: "@ FrontPage",
     metric: { value: "40%", label: "less noise" },
     features: [
       "Embedding-based semantic clustering",
@@ -336,6 +401,7 @@ const impacts: ImpactCard[] = [
   {
     title: "Multi-tenant SaaS",
     subtitle: "Enterprise Backend Platform",
+    context: "@ Zelthy",
     metric: { value: "Live", label: "in production" },
     features: [
       "Core backend systems in Python",
@@ -345,14 +411,36 @@ const impacts: ImpactCard[] = [
     ],
     tech: ["Python", "Zango", "PostgreSQL", "Multi-tenancy"],
   },
+  {
+    title: "Pulse",
+    subtitle: "Engineering Operations Dashboard",
+    context: "Personal",
+    metric: { value: "Next", label: "in design" },
+    features: [
+      "Infra metrics, logs & background jobs in one view",
+      "API performance & business KPIs side by side",
+      "Single pane for product and business health",
+      "Built for startup engineering teams",
+    ],
+    tech: ["TypeScript", "Node.js", "PostgreSQL", "Redis"],
+  },
 ];
 
 const gallery: Gallery = {
   path: "/gallery",
   label: "Gallery",
-  title: `Gallery – ${person.name}`,
-  description: `Gallery`,
-  images: [],
+  title: `Off screen – ${person.name}`,
+  description: `Desk, city, and everything in between — life around the code.`,
+  images: [
+    { src: "/images/gallery/horizontal-1.jpg", alt: "The desk where things get shipped", orientation: "horizontal" },
+    { src: "/images/gallery/vertical-1.jpg", alt: "Bengaluru, after hours", orientation: "vertical" },
+    { src: "/images/gallery/horizontal-2.jpg", alt: "Late-night build session", orientation: "horizontal" },
+    { src: "/images/gallery/vertical-2.jpg", alt: "City walks between deploys", orientation: "vertical" },
+    { src: "/images/gallery/horizontal-3.jpg", alt: "Coffee and a hard problem", orientation: "horizontal" },
+    { src: "/images/gallery/vertical-3.jpg", alt: "Somewhere off the map", orientation: "vertical" },
+    { src: "/images/gallery/horizontal-4.jpg", alt: "The view from the workspace", orientation: "horizontal" },
+    { src: "/images/gallery/vertical-4.jpg", alt: "Field trip", orientation: "vertical" },
+  ],
 };
 
-export { person, social, newsletter, home, about, blog, work, shelf, impacts, gallery };
+export { person, social, newsletter, home, about, blog, work, shelf, impacts, building, gallery };
