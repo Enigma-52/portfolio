@@ -1,6 +1,7 @@
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
+import { Column, Heading, Meta, Schema, Text } from "@once-ui-system/core";
 import { Posts } from "@/components/blog/Posts";
 import { baseURL, blog, person } from "@/resources";
+import styles from "@/components/home/home.module.scss";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -28,9 +29,13 @@ export default function Blog() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Heading marginBottom="l" variant="heading-strong-xl" marginLeft="24">
-        {blog.title}
-      </Heading>
+      <Column fillWidth gap="16" paddingX="24" marginBottom="l">
+        <span className={styles.eyebrow}>Field notes</span>
+        <Heading variant="display-strong-m">{blog.title}</Heading>
+        <Text onBackground="neutral-weak" variant="heading-default-xs" wrap="balance">
+          {blog.description}
+        </Text>
+      </Column>
       <Posts columns="2" thumbnail direction="column" />
     </Column>
   );
