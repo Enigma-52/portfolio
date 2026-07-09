@@ -8,6 +8,8 @@ interface PostsProps {
   thumbnail?: boolean;
   direction?: "row" | "column";
   exclude?: string[];
+  /** When true, only standalone posts (no `series` frontmatter) are shown. */
+  singlesOnly?: boolean;
 }
 
 export function Posts({
@@ -16,12 +18,18 @@ export function Posts({
   thumbnail = false,
   exclude = [],
   direction,
+  singlesOnly = false,
 }: PostsProps) {
   let allBlogs = getPosts(["src", "app", "blog", "posts"]);
 
   // Exclude by slug (exact match)
   if (exclude.length) {
     allBlogs = allBlogs.filter((post) => !exclude.includes(post.slug));
+  }
+
+  // Keep only standalone posts when requested
+  if (singlesOnly) {
+    allBlogs = allBlogs.filter((post) => !post.metadata.series?.trim());
   }
 
   const sortedBlogs = allBlogs.sort((a, b) => {

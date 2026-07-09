@@ -16,10 +16,12 @@ import {
 } from "@once-ui-system/core";
 import { baseURL, about, blog, person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
-import { getPosts } from "@/utils/utils";
+import { getPosts, groupPosts } from "@/utils/utils";
 import { Metadata } from "next";
 import React from "react";
 import { Posts } from "@/components/blog/Posts";
+import SeriesNav from "@/components/blog/SeriesNav";
+import References from "@/components/blog/References";
 import { ShareSection } from "@/components/blog/ShareSection";
 import styles from "@/components/home/home.module.scss";
 
@@ -60,11 +62,17 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
     ? routeParams.slug.join("/")
     : routeParams.slug || "";
 
-  let post = getPosts(["src", "app", "blog", "posts"]).find((post) => post.slug === slugPath);
+  const allPosts = getPosts(["src", "app", "blog", "posts"]);
+  let post = allPosts.find((post) => post.slug === slugPath);
 
   if (!post) {
     notFound();
   }
+
+  const { series } = groupPosts(allPosts);
+  const postSeries = post.metadata.series?.trim()
+    ? series.find((s) => s.name === post!.metadata.series?.trim())
+    : undefined;
 
   const avatars =
     post.metadata.team?.map((person) => ({
@@ -134,11 +142,22 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
               marginBottom="8"
             />
           )}
+          {postSeries && (
+            <Column maxWidth="s" fillWidth>
+              <SeriesNav series={postSeries} currentSlug={post.slug} />
+            </Column>
+          )}
           <Column as="article" maxWidth="s">
             <CustomMDX source={post.content} />
           </Column>
-          
-          <ShareSection 
+
+          {post.metadata.references && post.metadata.references.length > 0 && (
+            <Column maxWidth="s" fillWidth>
+              <References references={post.metadata.references} />
+            </Column>
+          )}
+
+          <ShareSection
             title={post.metadata.title} 
             url={`${baseURL}${blog.path}/${post.slug}`} 
           />
