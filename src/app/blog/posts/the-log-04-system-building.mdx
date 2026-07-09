@@ -1,0 +1,64 @@
+---
+title: "Building systems around the log"
+subtitle: "Splitting a data system into a log and a serving layer, and what that buys you."
+summary: "Part four of the series. Factoring a data system into a log and a serving layer, seeing a whole organization as one distributed database, and using the log for consistency, replication, and recovery."
+publishedAt: "2026-07-30"
+tag: "Distributed Systems"
+series: "The Log"
+order: 4
+references:
+  - label: "Jay Kreps — The Log: What every software engineer should know"
+    url: "https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-data-s-unifying"
+    note: "The original 2013 essay this series retells."
+  - label: "Raft — Understandable distributed consensus"
+    url: "https://raft.github.io/"
+    note: "How replicas agree on the order of a log, explained visually."
+  - label: "Leslie Lamport — Paxos Made Simple"
+    url: "https://lamport.azurewebsites.net/pubs/paxos-simple.pdf"
+    note: "The classic consensus algorithm underneath many logs."
+  - label: "Martin Kleppmann — Designing Data-Intensive Applications"
+    url: "https://dataintensive.net/"
+    note: "Log-structured storage, replication, and derived systems in depth."
+---
+
+We have used the log to move data between systems and to process it as it flows. For the last part, I want to turn the idea inward and look at a single data system, and then at a whole company, through the same lens.
+
+## An organization is a distributed database
+
+Here is a way of seeing things that is worth sitting with. If you squint, all of a company's systems and data flows look like one enormous distributed database. The search system, the cache, the analytics store, the recommendation service are all just different indexes over the same underlying data. The stream jobs from the last part are just a way of keeping those indexes up to date.
+
+Inside a single distributed database, a log is what handles data flow, consistency, and recovery. Across a whole organization, a central log does exactly the same job. The two are more alike than they first appear, and once you notice that, a lot of infrastructure starts to look like variations on one pattern.
+
+## Splitting a system in two
+
+Take any data system and you can usually cut it cleanly into two pieces: the log and the serving layer.
+
+The log captures every change, in order. The serving layer keeps whatever index it needs to answer queries quickly, a sorted structure for key lookups, an inverted index for search, and so on. Writes go to the log first. Each serving node subscribes to the log and applies those writes to its own index, in order, as fast as it can.
+
+This split is powerful because it moves the hard, general problems into the log and leaves only the system-specific part, the query and indexing strategy, in the serving layer. The serving layer is the part that should differ between a search engine and a key-value store. Everything else can be shared.
+
+## Reading your own writes
+
+Splitting writes from reads raises a fair question. If I write something and then immediately read it, will I see it? The serving node might not have caught up yet.
+
+The log's ordering gives a clean answer. A write to the log returns a position, an offset. When you make a read that needs to see that write, you can hand the read that offset. A serving node compares it to how far it has applied, and if it is behind, it waits until it has caught up before answering. No stale data, and no need for the serving nodes to [elect a leader](https://raft.github.io/) or coordinate among themselves, because the log is the single source of truth.
+
+The explainer below shows both ideas at once. Make a write, then see which serving nodes can already answer a read that depends on it, and which are still catching up.
+
+<ServingLayerExplainer />
+
+## Recovery is just replay
+
+The same picture makes failure handling almost boring, which is the goal. If a serving node dies or its disk is wiped, you do not need a special backup and restore dance. You point it at the log and let it replay from the beginning, or from a recent snapshot plus the log after it. It rebuilds its index and rejoins. Try it above: wipe a node and catch it back up, and you get the same node you had before.
+
+This is why the log is worth the apparent cost of keeping a separate copy of the data. That copy is what makes restoring a node, adding a new node, or spinning up an entirely new kind of index a routine operation rather than a project. The log does linear reads and writes, so it is cheap to store on plain disks, and when several systems share one log, that cost is spread across all of them.
+
+## The idea, one more time
+
+Across four parts, the same simple thing kept doing the heavy lifting. A log is an append-only, ordered record of what happened. That single shape is enough to keep replicas in sync, to integrate every system in a company, to process data continuously, and to build individual systems that recover by replaying history.
+
+Jay Kreps made the case for this back in 2013, when it was still a slightly odd thing to believe. More than a decade on, it is just how a lot of modern infrastructure is built. The technology moved on. The idea at the center did not need to.
+
+---
+
+This series is a retelling, in my own words and for a 2026 reader, of Jay Kreps' essay [The Log: What every software engineer should know about real-time data's unifying abstraction](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-data-s-unifying). All of the core ideas are his. Any clumsiness in the retelling is mine.

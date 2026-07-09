@@ -1,0 +1,64 @@
+---
+title: "Using the log for data integration"
+subtitle: "How one central log replaces a tangle of custom pipelines between every pair of systems."
+summary: "Part two of the series. Getting all of an organization's data into all the systems that need it, using the log as a single point of integration."
+publishedAt: "2026-07-16"
+tag: "Distributed Systems"
+series: "The Log"
+order: 2
+references:
+  - label: "Jay Kreps — The Log: What every software engineer should know"
+    url: "https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-data-s-unifying"
+    note: "The original 2013 essay this series retells."
+  - label: "Apache Kafka — Documentation"
+    url: "https://kafka.apache.org/documentation/"
+    note: "The central log, productized."
+  - label: "Debezium — Change Data Capture"
+    url: "https://debezium.io/"
+    note: "Turning a database's changes into a stream other systems can subscribe to."
+  - label: "Martin Kleppmann — Turning the database inside-out"
+    url: "https://www.confluent.io/blog/turning-the-database-inside-out-with-apache-samza/"
+    note: "A deeper take on the log as the backbone of a data platform."
+---
+
+In the first part we said a log is an append-only, ordered record of history that many machines can read at their own pace. That sounds abstract. This part is where it starts paying rent, on a problem every growing company runs into: getting all of its data into all of the systems that need it.
+
+## The boring problem nobody brags about
+
+There is a lot of excitement around machine learning, analytics, and real-time products. There is almost none around simply making the data available in the first place. And yet that plumbing is usually the thing standing between a company and everything it wants to build on top.
+
+Think about how much data a typical company has, and how many places want a copy of it. There is the main database. There is a search system. There is a cache. There is a warehouse for analytics. There is whatever is doing recommendations or fraud checks. Each of these needs a feed of the same underlying events and changes. The question is how you connect them.
+
+## Why wiring everything together does not scale
+
+The obvious approach is to connect each system directly to the ones it needs. The database feeds the search system. The database also feeds the cache. The warehouse pulls from the database and from the event stream. And so on. Every time a new system shows up, you write a new pipeline to each system it cares about.
+
+This falls apart quickly, and the reason is just counting. Try it below. Add a few systems in point to point mode and watch how fast the number of pipelines grows, then switch to routing everything through a single log.
+
+<FanoutExplainer />
+
+With direct connections, the number of pipelines grows with the square of the number of systems. Every new system might need a connection to every existing one, and often two, since data tends to flow both ways. With a central log, each system connects once. Adding a system is a single piece of integration work, not a dozen.
+
+## The log in the middle
+
+The recipe is simple to say. Take all of the organization's data and put it into a central log that anything can subscribe to.
+
+Each source of data becomes its own stream on that log. A source might be an application emitting events like clicks and page views, or a database publishing its changes. Every system that wants the data subscribes and reads at whatever speed suits it. A cache might stay right at the front. A warehouse might catch up once an hour. A new system can start from the beginning and replay the whole history to build itself up.
+
+The important part is what each subscriber does not need to know. A system reading from the log does not care whether the data originally came from a relational database, a key-value store, or an application server. It just reads records in order. The source and the destinations are decoupled. You can add or remove consumers without touching the producer at all.
+
+## The log is a buffer, not just a pipe
+
+There is a second benefit that is easy to miss. The log sits between the fast producers and the slow consumers and absorbs the difference. A system can go down for maintenance, come back an hour later, and pick up exactly where it left off, because its position is just a number and the records are still there.
+
+That is what makes this safe to run across many teams. One slow or broken consumer does not push back on the producer or on any other consumer. Everyone reads at their own pace from the same durable record.
+
+## Where cleanup belongs
+
+None of this removes the need to actually clean and structure the data. It just changes where that work happens. The best place to do it is at the source, before the data ever hits the log, because the team that produces the data understands it best. Publish it in a clean, canonical form once, and every consumer downstream benefits.
+
+Any further shaping that is specific to one destination, like fitting data into a particular warehouse schema, is done by that destination as it loads from the log. The central log stays general. The system-specific work stays at the edges.
+
+## Where this leaves us
+
+Once your data is flowing through a central log, something interesting happens. You stop thinking of the log as just a way to copy data from place to place, and start noticing that a log is really just a stream. That is the doorway into stream processing, which is the [next part](/blog/the-log-03-stream-processing).

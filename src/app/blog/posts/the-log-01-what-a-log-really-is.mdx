@@ -1,0 +1,66 @@
+---
+title: "What a log really is"
+subtitle: "The plainest storage idea there is, and the reason so much of our infrastructure looks the way it does."
+summary: "A reintroduction to the humble log: an append-only, ordered record of what happened, and why that simple shape sits underneath databases, Kafka, and stream processing."
+publishedAt: "2026-07-09"
+tag: "Distributed Systems"
+series: "The Log"
+order: 1
+references:
+  - label: "Jay Kreps — The Log: What every software engineer should know"
+    url: "https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-data-s-unifying"
+    note: "The original 2013 essay this series retells."
+  - label: "PostgreSQL — Write-Ahead Logging (WAL)"
+    url: "https://www.postgresql.org/docs/current/wal-intro.html"
+    note: "The log idea as it shows up inside a database."
+  - label: "Martin Fowler — Event Sourcing"
+    url: "https://martinfowler.com/eaaDev/EventSourcing.html"
+    note: "Storing changes rather than current state, at the application level."
+  - label: "Martin Kleppmann — Designing Data-Intensive Applications"
+    url: "https://dataintensive.net/"
+    note: "A modern, book-length treatment of logs, replication, and derived data."
+---
+
+Back in 2013, Jay Kreps wrote a long essay arguing that most software engineers did not really understand one of the most important ideas in their field: the log. More than a decade later, Kafka is everywhere, event streaming is a normal part of how companies move data around, and the core idea has held up remarkably well.
+
+This series is my attempt to retell that idea in plain language, for where we are now. No new theory, just the same abstraction explained the way I wish someone had explained it to me. We will start with the most basic question of all.
+
+## A very simple idea
+
+A log is an append-only, totally ordered sequence of records, ordered by time. New records always go on the end. Reads move from left to right. Each record is given a unique, increasing number as it arrives.
+
+That is the whole thing. It is not a clever data structure. It is closer to a notebook where you only ever write on the next empty line and never erase. Try it below. Add a few records, then watch how two different readers can move through the same log at their own pace.
+
+<LogExplainer />
+
+The reason this matters is that nothing is thrown away on read. A record sitting at position five is still there after someone reads it. Another reader can come along later and start from the beginning. The log is not a queue that drains as you consume it. It is a record of history that many people can replay.
+
+## Order is a kind of time
+
+The ordering of the records gives you a notion of time. Anything on the left is older than anything on the right, and the record number acts like a timestamp. This feels a little strange at first, because we are used to time meaning clocks and dates. But there is something useful about it: this kind of time does not depend on any physical clock at all.
+
+That turns out to matter enormously once you have more than one machine. Clocks on different machines drift and disagree. A shared, agreed-upon order does not. When every machine reads the same records in the same order, you can describe how far along a machine is with a single number: the position of the last record it has processed. That one number, together with the log, captures its entire state.
+
+## This is not the log you are thinking of
+
+There is a naming collision worth clearing up. Most engineers hear the word log and think of the text that an application prints out when something happens or breaks, the kind of thing you grep through when debugging. That is application logging, and it is a degenerate version of the idea here.
+
+The difference is who the log is for. Application logs are mostly lines of text meant for a human to read later. The log I am describing is structured and meant for programs to read. It is not a place you dump messages so you can look at them if something goes wrong. It is the source of truth that other systems are built on top of.
+
+## A log is really just a table on its side
+
+Here is the connection that makes the idea click. A log is not that different from a file or a table. A file is an array of bytes. A table is a set of rows. A log is a table where the records are kept in the order they arrived.
+
+There is a nice duality hiding in that. A table tells you the current state of things, like the balance in every bank account right now. A log tells you the sequence of changes that got you there, like every deposit and withdrawal in order. If you have the log of changes, you can replay it to rebuild the table at any point. And if you have a table that is being updated, you can record those updates and publish them as a log.
+
+This is why the log feels more fundamental than the table. The table is one view of the data as it stands today. The log holds the full history, which means it can rebuild not just today's view but any view you might want, including ones you have not thought of yet.
+
+## Why this is worth caring about
+
+Everything else in this series comes back to one property of the log: it is a persistent, replayable record of history that many machines can read at their own rate. That single property is what lets you keep systems in sync, feed data to places that consume it at wildly different speeds, and rebuild a system from scratch after it fails.
+
+In the [next part](/blog/the-log-02-data-integration), we will use that property to solve a very practical and very messy problem: getting all of an organization's data into all of the systems that need it, without building a tangle of custom pipelines between every pair of systems.
+
+---
+
+This series is a retelling, in my own words and for a 2026 reader, of Jay Kreps' 2013 essay [The Log: What every software engineer should know about real-time data's unifying abstraction](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-data-s-unifying). The core ideas are his. I have only tried to make them easier to pick up.

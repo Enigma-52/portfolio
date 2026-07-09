@@ -1,0 +1,66 @@
+---
+title: "The log and real-time stream processing"
+subtitle: "Why a log is just another word for a stream, and what that unlocks for continuous processing."
+summary: "Part three of the series. How the log turns batch thinking into continuous processing, feeds derived streams, and keeps state correct across failures."
+publishedAt: "2026-07-23"
+tag: "Distributed Systems"
+series: "The Log"
+order: 3
+references:
+  - label: "Jay Kreps — The Log: What every software engineer should know"
+    url: "https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-data-s-unifying"
+    note: "The original 2013 essay this series retells."
+  - label: "Tyler Akidau — The world beyond batch: Streaming 101"
+    url: "https://www.oreilly.com/radar/the-world-beyond-batch-streaming-101/"
+    note: "A clear, modern framing of batch as a special case of streaming."
+  - label: "Apache Flink — Stateful stream processing"
+    url: "https://flink.apache.org/what-is-flink/flink-architecture/"
+    note: "How local state and fault tolerance are handled in practice."
+  - label: "Apache Kafka — Log compaction"
+    url: "https://kafka.apache.org/documentation/#compaction"
+    note: "Keeping the latest value per key instead of retaining everything forever."
+---
+
+So far the log has been a way to move data around. That is useful, but it undersells the idea. It turns out that the word log and the word stream describe the same thing, and once you see that, stream processing stops looking like an exotic specialty and starts looking like the natural way to work with data that never stops arriving.
+
+## Batch is a habit, not a requirement
+
+For a long time, most data processing was done in batches. You collect a day of data, then at midnight you run a big job over all of it. This made sense back when data itself was collected in batches, by hand, on paper, and shipped somewhere to be added up.
+
+But most data today is not collected that way. Activity events and database changes happen continuously, all day. When the data arrives continuously, processing it in one big nightly lump is a choice, and usually not a great one. A daily batch job is really just a continuous computation with a very long delay bolted on.
+
+The demonstration below makes the difference concrete. Emit some events and watch the stream answer update instantly, while the batch answer only moves when you run the job.
+
+<StreamVsBatchExplainer />
+
+Stream processing is not a different kind of computation. It is the same work, done as the data arrives instead of long after. Seen this way, batch is just the special case where you wait for the end of the data before you start. Since real data rarely has an end, continuous is the more honest default.
+
+## A stream job is just reads and writes on logs
+
+Here is the part that ties back to everything before. A stream processing job, at its core, is anything that reads from one or more logs and writes its output to another log or system. That is it. There is no requirement for a fancy framework.
+
+Because the output is itself a log, other jobs can read it, process it further, and write their own logs. You end up with a graph of jobs connected by logs. A raw feed of events comes in, one job enriches it, another aggregates it, and each step publishes a new stream that looks no different from the original data to whoever consumes it. Complexity gets built up in layers, and every layer is just another log.
+
+## Why the log matters here
+
+Two properties of the log make this graph of jobs actually work.
+
+The first is order. If you are processing a stream of updates to the same record, the order matters. Applying two updates in the wrong order can give you the wrong final answer. The log gives every consumer the same order, and that order survives crashes, restarts, and reconnections. That is a stronger guarantee than you get from a plain network connection.
+
+The second is buffering, which we met in the last part. When one job produces faster than the next can consume, something has to give. Without a buffer you either drop data or block the whole pipeline. The log is a very large buffer, so a slow or restarting job never stalls the ones around it. In a big organization where different teams own different jobs, this isolation is what keeps one bad job from freezing everyone else.
+
+## Keeping state without losing it
+
+Plenty of stream jobs are simple: look at one record, transform it, move on. But many are not. Counting, aggregating, and joining all require the job to remember something as it goes. A running count has to hold the count so far. Enriching a click with user details means keeping user information nearby to join against.
+
+The danger is obvious. If the job holds that state only in memory and then crashes, the state is gone. Keeping it in a remote database instead means a network round trip for every record, which is slow.
+
+The log solves this with the same trick from the very first part: a table and a log are two views of the same thing. A job can keep its state in a local table right next to it, and also publish every change to that table as a log. If the job crashes, it rebuilds its local table by replaying that log, and it is exactly where it left off. The state of the job is itself just another log, which means other jobs can subscribe to it too.
+
+## Not everything can be kept forever
+
+There is a practical wrinkle. You cannot keep every record for all time without running out of space, so the log has to be cleaned up eventually. There are two sensible ways to do it. For plain event data, you keep a window, say the last few days, and let older records fall off. For keyed data, where each record updates some key, you can throw away only the records that a newer update has already superseded, and keep the latest value for every key. That way the log still holds a complete, replayable picture of the current state, just not every historical version of it.
+
+## Where this leads
+
+We have now used the log to integrate data and to process it continuously. The last step is to turn the idea inward and ask what happens when you build a data system itself around a log. That is the [final part](/blog/the-log-04-system-building).
