@@ -242,8 +242,8 @@ const about: About = {
 const blog: Blog = {
   path: "/blog",
   label: "Blog",
-  title: "Field notes from production",
-  description: `Notes from ${person.name} on backend architecture, pipelines, and why production systems are built the way they are.`,
+  title: "Field notes",
+  description: `Writing from ${person.name} on backend engineering, distributed systems, and the ideas behind how software gets built.`,
 };
 
 const work: Work = {
