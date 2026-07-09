@@ -1,6 +1,10 @@
 import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
 import React, { ReactNode } from "react";
 import { slugify as transliterate } from "transliteration";
+import LogExplainer from "@/components/blog/explainers/LogExplainer";
+import FanoutExplainer from "@/components/blog/explainers/FanoutExplainer";
+import StreamVsBatchExplainer from "@/components/blog/explainers/StreamVsBatchExplainer";
+import ServingLayerExplainer from "@/components/blog/explainers/ServingLayerExplainer";
 
 import {
   Heading,
@@ -202,6 +206,10 @@ const components = {
   Icon,
   Media,
   SmartLink,
+  LogExplainer,
+  FanoutExplainer,
+  StreamVsBatchExplainer,
+  ServingLayerExplainer,
 };
 
 type CustomMDXProps = MDXRemoteProps & {

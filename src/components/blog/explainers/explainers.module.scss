@@ -1,0 +1,336 @@
+/* Interactive explainers — editorial, quiet, consistent with the Night Ops theme */
+.explainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  margin: 2rem 0;
+  padding: 1.75rem;
+  border: 1px solid var(--neutral-alpha-weak);
+  border-radius: var(--radius-l);
+  background: var(--neutral-alpha-weak);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.kicker {
+  font-family: var(--font-code), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-on-background-weak);
+}
+
+.caption {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--neutral-on-background-medium);
+}
+
+/* The log itself — a scrolling strip of ordered cells */
+.track {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.5rem 0.25rem 1rem;
+  scroll-behavior: smooth;
+}
+
+.cell {
+  position: relative;
+  flex: 0 0 auto;
+  width: 4.5rem;
+  height: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  border: 1px solid var(--neutral-alpha-medium);
+  border-radius: var(--radius-m);
+  background: var(--page-background);
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s ease;
+  animation: cell-in 0.35s ease;
+}
+
+.cellOffset {
+  font-family: var(--font-code), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--brand-on-background-weak);
+}
+
+.cellValue {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--neutral-on-background-strong);
+}
+
+.cellNew {
+  border-color: var(--brand-solid-strong);
+}
+
+.appendHint {
+  flex: 0 0 auto;
+  align-self: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--neutral-alpha-medium);
+  border-radius: var(--radius-m);
+  font-family: var(--font-code), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--neutral-on-background-weak);
+  text-align: center;
+}
+
+/* Consumer cursors reading the same log at their own pace */
+.consumers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.consumerRow {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.consumerLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-code), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--neutral-on-background-medium);
+}
+
+.consumerDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.progress {
+  position: relative;
+  height: 0.375rem;
+  border-radius: 999px;
+  background: var(--neutral-alpha-medium);
+  overflow: hidden;
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+.consumerOffset {
+  font-family: var(--font-code), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--neutral-on-background-weak);
+  white-space: nowrap;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.button {
+  font-family: var(--font-code), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--neutral-alpha-medium);
+  background: var(--page-background);
+  color: var(--neutral-on-background-strong);
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.button:hover:not(:disabled) {
+  border-color: var(--brand-solid-strong);
+  background: var(--neutral-alpha-weak);
+}
+
+.buttonPrimary {
+  border-color: var(--brand-solid-strong);
+  color: var(--brand-on-background-strong);
+}
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Metrics row — big numbers that react to interaction */
+.metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metricValue {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--neutral-on-background-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.metricValueAccent {
+  color: var(--brand-on-background-strong);
+}
+
+.metricLabel {
+  font-family: var(--font-code), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--neutral-on-background-weak);
+}
+
+/* Diagram wrapper for SVG-based explainers */
+.diagram {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.diagram svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Two side-by-side lanes (e.g. batch vs stream) */
+.lanes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.lane {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--neutral-alpha-medium);
+  border-radius: var(--radius-m);
+  background: var(--page-background);
+}
+
+.laneTitle {
+  font-family: var(--font-code), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--neutral-on-background-medium);
+}
+
+.queue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  min-height: 2rem;
+  align-content: flex-start;
+}
+
+.chip {
+  font-family: var(--font-code), monospace;
+  font-size: 0.6875rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--neutral-alpha-medium);
+  color: var(--neutral-on-background-medium);
+  animation: cell-in 0.3s ease;
+}
+
+.chipPending {
+  border-color: var(--neutral-alpha-strong);
+  color: var(--neutral-on-background-weak);
+}
+
+.chipDone {
+  border-color: var(--brand-solid-strong);
+  color: var(--brand-on-background-strong);
+}
+
+/* Status badge (fresh / stale / waiting) */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  width: fit-content;
+  font-family: var(--font-code), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--neutral-alpha-medium);
+  color: var(--neutral-on-background-medium);
+}
+
+.badgeFresh {
+  border-color: var(--brand-solid-strong);
+  color: var(--brand-on-background-strong);
+}
+
+.badgeStale {
+  border-color: var(--neutral-alpha-strong);
+  color: var(--neutral-on-background-weak);
+}
+
+/* Node label used under diagram counts */
+.note {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--neutral-on-background-weak);
+}
+
+@keyframes cell-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .consumerRow {
+    grid-template-columns: 5rem 1fr auto;
+    gap: 0.625rem;
+  }
+}
